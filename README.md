@@ -1,70 +1,100 @@
-ETL Pipeline for Sports Betting Data
-Overview
-This repository contains an ETL pipeline designed to process sports betting data. It reads data from Parquet files, combines event odds with market information, appends transaction data, and outputs the results into a new Parquet file. This project uses Pandas for data manipulation and is structured to demonstrate best practices in coding, configuration management, and error handling.
+**Sports Betting Data ETL Pipeline**
 
-Project Structure
-rust
-Copy code
+**Overview**
+
+This project contains an ETL (Extract, Transform, Load) pipeline designed to process sports betting data, specifically for combining betting odds with market information and appending transactional data. This pipeline leverages Python with Pandas for data manipulation and is structured with best practices in software development, including modularity, error handling, and configuration management.
+
+**Project Structure**
+
 sportsbook-etl/
+
 │
+
 ├── src/
-│   └── etl.py               - Main ETL script for processing data.
+
+│   ├── etl.py                - Main ETL script containing the DataETL class and processing logic.
+
 │
+
 ├── tests/
-│   ├── test_etl.py          - Unit tests for the ETL functions.
-│   └── test_integration_etl.py - Integration tests for the entire ETL pipeline.
+
+│   ├── unit_test_etl.py            - Unit tests for individual components of the ETL pipeline.
+
+│   ├── integration_test_etl.py     - Integration tests that run the entire ETL process.
+
 │
+
 ├── config/
-│   └── config.ini           - Configuration file for ETL paths.
+
+│   ├── config.ini            - Configuration file to manage file paths used in the ETL process.
+
 │
-└── README.md
-Setup Instructions
-Prerequisites
-Python 3.8 or higher
-pip (Python package installer)
-Installation
-Clone the repository (or download the zip file and extract it):
-bash
-Copy code
+
+├── requirements.txt          - List of dependencies to install.
+
+├── README.md                 - Documentation for setting up and using the ETL pipeline.
+
+
+**Setup Instructions**
+
+**Prerequisites**
+
+Python 3.8+
+Pandas library
+
+**Installation**
+
+**1. Clone the repository:**
+
 git clone https://your-repository-url.com/sportsbook-etl
 cd sportsbook-etl
 Install required Python packages:
-bash
 Copy code
 pip install -r requirements.txt
 Configuration
-Modify the config.ini file in the config/ directory to update the file paths according to your local setup:
+Edit the config.ini file in the config/ directory to set the file paths for the input data and output files accordingly:
 
 ini
 Copy code
 [Paths]
-BetsPath = path/to/bets_v1.parquet
-TransactionsPath = path/to/trans_v1.parquet
-OutputPath = path/to/bets_interview_completed.parquet
-Running the ETL Pipeline
-To run the ETL process, execute the following command from the root directory of the project:
+BetsPath = data/bets_v1.parquet
+TransactionsPath = data/trans_v1.parquet
+OutputPath = output/bets_interview_completed.parquet
+Data Files
+Ensure that the input data files (bets_v1.parquet and trans_v1.parquet) are placed in the data/ directory as specified in the config.ini. The output files will be generated in the output/ directory.
+
+Usage
+To run the ETL pipeline, execute the etl.py script from the command line:
 
 bash
 Copy code
 python src/etl.py
-This will process the data as configured in config.ini and output the results to the specified output file.
+This script initializes the ETL process using the configurations specified and processes the input files to produce the consolidated output.
 
+Classes and Functions
+DataETL Class:
+
+Located in src/etl.py, this class encapsulates all the ETL logic:
+
+__init__(self, config_path): Constructor that initializes the ETL process with path configurations.
+read_parquet(self, file_path): Reads a Parquet file and returns a DataFrame.
+combine_legs_markets(self, row): Combines data from the 'legs' and 'markets' columns into a single 'outcomes' list.
+add_transaction(self): Enhances the bets data with transactions and writes the output to a Parquet file.
+save_data(self, df, path): Saves the DataFrame to a specified Parquet file.
 Testing
-This project includes both unit and integration tests.
+This project includes both unit and integration tests located in the tests/ directory.
 
 Running Unit Tests
-To run unit tests, navigate to the project root and execute:
+Run the unit tests to verify individual components:
 
 bash
 Copy code
 python -m unittest tests/test_etl.py
 Running Integration Tests
-To run integration tests, use:
+Run the integration tests to validate the entire ETL process:
 
 bash
 Copy code
 python -m unittest tests/test_integration_etl.py
-These tests will ensure that all components of the ETL process work correctly together.
-
 Contact
-For any additional questions or feedback, please contact [Your Name] at [your.email@example.com].
+For any inquiries, feedback, or issues, please contact [Your Name] at [your.email@example.com].
