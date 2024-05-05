@@ -79,7 +79,7 @@ class DataETL:
             sys.exit(1)
 
 def main():
-    config_path = 'C:\\Users\\lemohapa\\OneDrive - Capgemini\\Documents\\Personal\\Resume\\Nederlandse Loterij\\sportsbook-etl\\config\\config.ini'
+    config_path = 'sportsbook-etl\\config\\config.ini'
     etl = DataETL(config_path)
     etl.add_transaction()
 
